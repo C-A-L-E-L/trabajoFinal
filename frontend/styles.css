@@ -1,0 +1,323 @@
+@charset "UTF-8";
+
+html {
+    scroll-behavior: smooth;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #e5c28c;
+}
+
+#section3 {
+    background: rgb(246, 81, 130);
+}
+
+#section4 {
+    background: rgb(98, 196, 84);
+}
+
+#section3 h2 {
+    background-color: transparent;
+    background: rgb(246, 81, 130);
+}
+
+#section4 h2 {
+    background-color: transparent;
+    background: rgb(98, 196, 84);
+}
+
+.container {
+    background-color: transparent;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+}
+
+@keyframes animated-text {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 165px;
+    }
+}
+
+.buttons {
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    height: 100%;
+}
+
+.container .btn {
+    border: none;
+    display: block;
+    text-align: center;
+    cursor: pointer;
+    text-transform: uppercase;
+    outline: none;
+    overflow: hidden;
+    position: relative;
+    color: #c0c0c0;
+    font-weight: 300;
+    letter-spacing: 2px;
+    font-size: 10px;
+    width: 150px;
+    height: 50px;
+    background-color: #250902;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.20);
+    border-radius: 4px;
+}
+
+.container .btn:hover {
+    color: #ffffff;
+}
+
+.container .btn span {
+    background-color: transparent;
+    position: relative;
+    z-index: 1;
+}
+
+.container .btn:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 550%;
+    width: 140%;
+    background: #75172a;
+    transition: all .5s ease-in-out;
+    transform: translateX(-98%) translateY(-25%) rotate(45deg);
+}
+
+.container .btn:hover:after {
+    transform: translateX(-9%) translateY(-25%) rotate(45deg);
+}
+
+.container .link {
+    font-size: 20px;
+    margin-top: 30px;
+}
+
+.container .link a {
+    color: #000;
+    font-size: 25px;
+}
+
+/*============== SECCIONES ==============*/
+.section {
+    border-radius: 60px;
+    height: 700px;
+    display: flex;
+    padding-top: 25px;
+    margin-left: 60px;
+    margin-right: 60px;
+}
+
+#section1 {
+    background-color: #efdbb9;
+    flex-direction: column;
+}
+
+#section1 .cabecera {
+    background-color: transparent;
+    justify-content: space-between;
+    margin-top: 55px;
+    padding: 0 110px;
+    display: flex;
+}
+
+#section1 .cabecera .caja {
+    background-color: transparent;
+    display: flex;
+}
+
+.cabecera img {
+    background-color: transparent;
+    width: 24rem;
+}
+
+.caja {
+    color: #000;
+    margin: 0 10px;
+}
+
+.tarjetas {
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    justify-content: center;
+    margin-left: 30px;
+}
+
+.card {
+    margin-right: 40px;
+    border-radius: 34px;
+}
+
+.card-body {
+    background-color: transparent;
+}
+
+.card .card-body b {
+    background-color: transparent;
+    text-align: center;
+    display: block;
+    margin: auto;
+}
+
+.card-title {
+    background-color: transparent;
+}
+
+.card-text {
+    background-color: transparent;
+    text-align: justify;
+}
+
+#section2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    background: rgb(236, 106, 94);
+    padding-top: 25px;
+    margin-left: 60px;
+    margin-right: 60px;
+    border-radius: 60px;
+}
+
+#section2 .tabla #productos-cuerpo {
+    background-color: #250902;
+}
+
+.styled-table th,
+.styled-table td {
+    height: 20px;
+    border: 1px solid black;
+    border-radius: 20px;
+}
+
+#section2 h2 {
+    background-color: transparent;
+    background: rgb(236, 106, 94);
+}
+
+/*============== REGISTRO ==============*/
+.form {
+    width: 90%;
+    max-width: 800px;
+    min-width: 600px;
+    margin: 0 auto;
+    background-color: #f0f8ff;
+    padding: 1em;
+    border-radius: 0.5em;
+}
+
+.form h2 {
+    background-color: #f0f8ff;
+    color: #00bbff;
+}
+
+.form ul {
+    background-color: #f0f8ff;
+    padding: 0px;
+}
+
+.form li {
+    background-color: #f0f8ff;
+    list-style-type: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin: 1em 0;
+}
+
+.form label {
+    background-color: #f0f8ff;
+    font-weight: bold;
+}
+
+.form span {
+    background-color: #f0f8ff;
+}
+
+.form .span2 {
+    grid-column-end: span 2;
+}
+
+.form .span3 {
+    grid-column-end: span 3;
+}
+
+.form ul ul {
+    margin-left: 0.5em;
+}
+
+.form input {
+    border-radius: 20px;
+}
+
+.form textarea{
+    border-radius: 10px;
+}
+
+.form input[type="checkbox"] {
+    max-width: 1em;
+}
+
+.form .botones {
+    background-color: #f0f8ff;
+    display: flex;
+    justify-content: center;
+}
+
+.form button {
+    flex: 1;
+    margin: 1em;
+    padding: 0.5em;
+    background-color: #1e90ff;
+    color: white;
+    border: 1px solid lightgrey;
+    cursor: pointer;
+}
+
+.form input,
+textarea,
+select {
+    
+    border: 0px;
+    padding: 0.5em;
+}
+
+.form input:required,
+textarea:required,
+select:required {
+    background-color: #ffb6c1;
+}
+
+.form input:invalid,
+textarea:invalid,
+select:invalid {
+    border-bottom: 2px solid red;
+}
+
+.form input:valid,
+textarea:valid,
+select:valid {
+    background-color: #90ee90;
+    border-bottom: 2px solid green;
+}
