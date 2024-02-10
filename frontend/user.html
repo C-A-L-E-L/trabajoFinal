@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrar Productos</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <!-- Estilos css -->
+  <link rel="stylesheet" href="styles.css">
+  <!-- Enlace al favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="img/icono.ico" type="image/x-icon">
+</head>
+
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
+
+  <div class="accordion" id="accordionExample">
+    <div class="container">
+      <section class="buttons">
+        <a href="index.html"><button class="btn"><span>Inicio</span></button></a>
+        <a href="index.html#section2"><button class="btn"><span>Productos</span></button></a>
+        <a href="index.html#section3"><button class="btn"><span>Servicios</span></button></a>
+        <a href="index.html#section4"><button class="btn"><span>Ubicación</span></button></a>
+      </section>
+    </div>
+
+    <br><br><br><br>
+    <h1 style="text-align: center;">Hola Bienvenido!! </h1><br>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+          aria-expanded="true" aria-controls="collapseOne">
+          Pedidos Existentes
+        </button>
+      </h2>
+      <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <table id="pedido-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Celular</th>
+                <th>Fecha Entrega</th>
+                <th>Hora Entrega</th>
+                <th>Descripción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Los datos de los pedidos se insertarán aquí -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+          aria-expanded="false" aria-controls="collapseTwo">
+          Productos
+        </button>
+      </h2>
+      <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <table id="productos-tabla">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Disponibles</th>
+                <th>Foto</th>
+              </tr>
+            </thead>
+            <tbody id="productos-cuerpo">
+              <!-- Los datos de los Producos se insertarán aquí -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+          data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          Registrar Nuevo Producto
+        </button>
+      </h2>
+      <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <form action="http://localhost:3000/backend/agregarProducto" class="form" method="post"
+            enctype="multipart/form-data">
+            <h2>Registrar producto</h2>
+            <ul class="campos">
+              <li>
+                <label for="nombre">Nombre Producto</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Producto Nuevo" required="required" />
+                <span class="errores"></span>
+              </li>
+              <li>
+                <label for="precio">Precio Unitario</label>
+                <input type="number" id="precio" name="precio" placeholder="0.00" min="0.01" step="0.01"
+                  required="required" />
+                <span class="errores"></span>
+              </li>
+              <li>
+                <label for="stock">Cantidad</label>
+                <input type="number" id="stock" name="stock" placeholder="0" min="0" step="1" required="required" />
+                <span class="errores"></span>
+              </li>
+              <li>
+                <label for="imagen">Seleccionar imagen</label>
+                <input type="file" id="imagen" name="imagen" accept="image/*" />
+                <span class="errores"></span>
+              </li>
+            </ul>
+            <div class="botones">
+              <button type="button" onclick="limpiarCampos()">Borrar</button>
+                <button type="submit">Enviar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <br>
+  </div>
+
+  <script>
+    // Realiza una solicitud AJAX para obtener los productos
+    fetch('http://localhost:3000/productos')
+      .then(response => response.text()) // Cambia a response.text() en lugar de response.json()
+      .then(tableHTML => {
+        // Actualiza la interfaz de usuario con las filas de la tabla HTML
+        const cuerpoTabla = document.getElementById('productos-tabla');
+        cuerpoTabla.innerHTML = tableHTML; // Cambia el contenido del cuerpo de la tabla
+      })
+      .catch(error => console.error('Error al obtener productos:', error));
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Realiza una solicitud AJAX para obtener los productos
+      fetch('http://localhost:3000/backend/pedidos')
+        .then(response => response.text()) // Cambia a response.text() en lugar de response.json()
+        .then(tableHTML => {
+          // Actualiza la interfaz de usuario con las filas de la tabla HTML
+          const tablaProductos = document.getElementById('pedido-table');
+          tablaProductos.innerHTML = tableHTML; // Inserta la tabla HTML
+        })
+        .catch(error => console.error('Error al obtener pedidos:', error));
+    });
+  </script>
+
+  <script>
+    function limpiarCampos() {
+      document.getElementById("nombre").value = ""; // Limpia el campo Nombre
+      document.getElementById("precio").value = ""; // Limpia el campo Precio
+      document.getElementById("stock").value = ""; // Limpia el campo Cantidad
+      document.getElementById("imagen").value = ""; // Limpia el campo Seleccionar imagen
+    }
+  </script>
+</body>
+
+</html>

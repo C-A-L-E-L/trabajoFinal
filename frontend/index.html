@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <title>Panificadora Loja</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -13,28 +14,46 @@
   <!-- Enlace al favicon -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="shortcut icon" href="img/icono.ico" type="image/x-icon">
+  <!-- Icono de Ubicacion-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-    crossorigin="anonymous"></script>
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
+
+  <div class="contenedor">
+    <a href="https://wa.me/593992762138"><img src="img/WhatsApp.png" alt="WhatsApp"></a>
+  </div>
 
   <div class="container">
     <section class="buttons">
       <a href="#section1"><button class="btn"><span>Inicio</span></button></a>
       <a href="#section2"><button class="btn"><span>Productos</span></button></a>
-      <a href="#section3"><button class="btn"><span>Pedidos</span></button></a>
-      <a href="#section4"><button class="btn"><span>Contactos</span></button></a>
+      <a href="#section3"><button class="btn"><span>Servicios</span></button></a>
+      <a href="#section4"><button class="btn"><span>Ubicación</span></button></a>
     </section>
   </div>
 
   <section id="section1" class="section">
     <div class="cabecera">
-      <div class="caja">NUMERO CEL</div>
+      <a href="">
+        <button class="pushable">
+          <span class="front">
+            HOLAAA
+          </span>
+        </button>
+      </a>
       <div class="caja"><img src="img/panificadora.png" alt="PanificadoraIMG"></div>
-      <div class="caja">Ingresar</div>
-    </div>
+      <a href="user.html">
+        <button class="pushable">
+          <span class="front">
+            Ingresar
+          </span>
+        </button>
+      </a>
+    </div><br>
 
     <div class="tarjetas">
       <div class="card" style="width: 18rem;">
@@ -54,7 +73,7 @@
           <h5 class="card-title">Pasteles</h5>
           <p class="card-text">Sumérgete en un mundo de dulzura y deleite en nuestra sección de pasteles,
             donde cada creación es una obra maestra de sabor.</p>
-          <a href="#section2" class="btn btn-primary">Comprar</a>
+          <a href="#section3" class="btn btn-primary">Comprar</a>
         </div>
       </div>
 
@@ -65,7 +84,7 @@
           <h5 class="card-title">Pedidos</h5>
           <p class="card-text">Disfruta de la frescura de tus pedidos de manera sencilla. Envíanos un mensaje</p>
           <b>¡Haz tu pedido hoy!</b><br>
-          <a href="#section2" class="btn btn-primary">Realizar Pedidos</a>
+          <a href="#section3" class="btn btn-primary">Realizar Pedidos</a>
         </div>
       </div>
 
@@ -83,37 +102,302 @@
   </section>
 
   <section id="section2">
-    <h2>Productos</h2>
-    <div class="tabla">
-      <table id="productos-tabla" class="table" style="border-radius: 10px;">
-        <thead>
-        </thead>
-        <tbody id="productos-cuerpo"></tbody>
-      </table>
+    <table id="productos-tabla">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Precio</th>
+          <th>Disponibles</th>
+          <th>Foto</th>
+        </tr>
+      </thead>
+      <tbody id="productos-cuerpo">
+        <!-- Los datos de los Producos se insertarán aquí -->
+      </tbody>
+    </table>
+  </section>
+  <script>
+    // Realiza una solicitud AJAX para obtener los productos
+    fetch('http://localhost:3000/productos')
+      .then(response => response.text()) // Cambia a response.text() en lugar de response.json()
+      .then(tableHTML => {
+        // Actualiza la interfaz de usuario con las filas de la tabla HTML
+        const cuerpoTabla = document.getElementById('productos-tabla');
+        cuerpoTabla.innerHTML = tableHTML; // Cambia el contenido del cuerpo de la tabla
+      })
+      .catch(error => console.error('Error al obtener productos:', error));
+  </script>
+
+  <section id="section3">
+    <!-- Primer formulario -->
+    <form class="pedidos" action="http://localhost:3000/backend/guardar-compra" method="POST">
+      <div id="formulario">
+        <h1>Reservar Compra</h1>
+      </div>
+      <div class="datosC">
+        <div id="tabla-formulario">
+          <label for="nombre">Nombre Cliente</label>
+          <input placeholder="Ingrese su nombre..." name="fnombre" type="text" id="nombreC">
+
+          <label for="nombre">Numero Celular</label>
+          <input placeholder="0999999999" name="fnumero" type="tel" id="numeroC" pattern="[0-9]{10}">
+
+          <label for="apellido">Productos Disponibles</label>
+          <select name="producto" id="producto">
+            <option value="" disabled selected hidden>Seleccione un producto...</option>
+          </select>
+
+          <div class="precio-container">
+            <label for="precio">Precio Producto:</label>
+            <span id="precioProducto" class="precioP" placeholder="0,00"></span>
+          </div>
+
+          <label for="correo">Cantidad</label>
+          <input type="number" id="cantidad" name="cantidad" placeholder="0" min="1" step="1" />
+
+          <label for="hora">Hora Entrega</label>
+          <input placeholder="HH:MM" name="horaEntrega" type="time" id="horaEntrega">
+          <!-- Campo oculto para el precio e ID Producto-->
+          <input type="hidden" id="precio" name="precio" value="">
+
+          <label for="apellido">Formas de Pago</label>
+          <select name="pago" id="pago">
+            <option value="" disabled selected hidden>Pagar...</option>
+            <option value="efectivo">Efectivo</option>
+            <option value="Transferencia">Transferencia</option>
+            <option value="Tarjeta">Tarjeta de Credito/Débito</option>
+          </select>
+        </div>
+        <div class="infoC">
+          <h2>Información de Compra</h2>
+          <textarea id="datosIngresados" rows="6" cols="20" readonly>
+            DATOS de COMPRA
+                </textarea>
+        </div>
+      </div>
+      <br>
+      <button name="registro" type="submit" id="button">COMPRAR</button>
+    </form>
+
+    <!-- Segundo formulario -->
+    <form class="compras" id="pedido" action="http://localhost:3000/backend/guardar-pedido" method="POST">
+      <div id="formulario-compra">
+        <h1>Agendar Pedido</h1>
+      </div>
+      <div class="datos-cliente">
+        <div id="tabla-datos">
+          <div class="labels-superiores">
+            <div class="label">
+              <label for="nombreCliente">Nombre Cliente</label>
+              <input placeholder="Ingrese su nombre..." name="pnombre" type="text" id="nombreCliente">
+            </div>
+            <div class="label">
+              <label for="numeroCelular">Numero Celular</label>
+              <input placeholder="0999999999" name="pnumero" type="tel" id="numeroCelular" pattern="[0-9]{10}">
+            </div>
+          </div>
+
+          <div class="labels-superiores">
+            <div class="label">
+              <label for="fechaEntrega">Fecha de Entrega</label>
+              <input type="date" name="pfecha" id="fechaEntrega">
+            </div>
+            <div class="label"><label for="fechaEntrega">Hora de Entrega</label>
+              <input placeholder="HH:MM" name="phoraEntrega" type="time" id="horaEntrega">
+            </div>
+          </div>
+
+          <div class="labels-superiores">
+            <div class="label">
+              <label for="apellido">Formas de Pago</label>
+              <select name="pagop" id="pagop">
+                <option value="" disabled selected hidden>Pagar...</option>
+                <option value="efectivo">Efectivo</option>
+                <option value="Transferencia">Transferencia</option>
+                <option value="Tarjeta">Tarjeta de Credito/Débito</option>
+              </select>
+            </div>
+            <div class="label">
+              <label for="apellido">Metodo de entrega</label>
+              <select name="entregap" id="entregap">
+                <option value="" disabled selected hidden>Entregar...</option>
+                <option value="efectivo">Local</option>
+                <option value="Transferencia">Docmicilio</option>
+              </select>
+            </div>
+
+          </div>
+        </div>
+        <div class="info-compra">
+          <h2>Descripción de Pedido</h2>
+          <textarea id="datosIngresados2" name="descripcion_pedido" rows="2" cols="20"
+            placeholder="Ingrese el contenido sobre el PEDIDO"></textarea>
+        </div>
+      </div>
+      <br>
+      <button name="registro" type="submit" id="boton-comprar">REGISTRAR PEDIDO</button>
+    </form>
+  </section>
+
+  
+
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const productoSelect = document.getElementById('producto');
+      const precioProductoSpan = document.getElementById('precioProducto');
+
+      // Agregar un placeholder predeterminado al span
+      precioProducto.textContent = '0,00';
+
+      // Agregar un evento de cambio al select para detectar cuando se selecciona un nuevo producto
+      productoSelect.addEventListener('change', function () {
+        const productoSeleccionado = productoSelect.value;
+
+        // Hacer una solicitud AJAX al servidor para obtener el precio del producto seleccionado
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `http://localhost:3000/precio-producto?nombre=${encodeURIComponent(productoSeleccionado)}`);
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              const response = JSON.parse(xhr.responseText);
+              const precioProducto = response.precio;
+
+              // Actualizar el contenido del span con el precio del producto
+              precioProductoSpan.textContent = precioProducto;
+            } else {
+              console.error('Error al obtener el precio del producto:', xhr.status);
+            }
+          }
+        };
+        xhr.send();
+      });
+
+      // Hacer la solicitud AJAX al servidor para obtener los nombres de los productos con stock mayor o igual a 1
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', 'http://localhost:3000/productos-con-stock');
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            const nombresProductos = response.productos;
+            nombresProductos.forEach(nombreProducto => {
+              const option = document.createElement('option');
+              option.value = nombreProducto;
+              option.textContent = nombreProducto;
+              productoSelect.appendChild(option);
+            });
+          } else {
+            console.error('Error al obtener nombres de productos:', xhr.status);
+          }
+        }
+      };
+      xhr.send();
+    });
+  </script>
+  <!-- Mostrar Resumen compra -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const button = document.getElementById('button');
+      const nombreInput = document.getElementById('nombreC');
+      const numeroInput = document.getElementById('numeroC');
+      const productoSelect = document.getElementById('producto');
+      const cantidadInput = document.getElementById('cantidad');
+      const horaInput = document.getElementById('horaEntrega');
+      const precioProductoSpan = document.getElementById('precioProducto');
+      const pago = document.getElementById('pago');
+      const datosIngresadosTextarea = document.getElementById('datosIngresados');
+
+      const actualizarTextarea = () => {
+        const nombre = nombreInput.value;
+        const numero = numeroInput.value;
+        const producto = productoSelect.value;
+        const cantidad = cantidadInput.value;
+        const hora = horaInput.value;
+        const formaPago = pago.value;
+        const precioUnitario = parseFloat(precioProductoSpan.textContent);
+        const precioTotal = precioUnitario * parseInt(cantidad);
+
+        const datosIngresados = `Cliente: ${nombre}\nCelular: ${numero}\nProducto: ${producto} (${cantidad})\nPrecio Total: ${precioTotal.toFixed(2)}\nHora Entrega: ${hora}\nForma Pago: ${formaPago}\n- - - - - - - - - - - - - - - - - - - - - - -\n|               + + NOTA + +                |\n- - - - - - - - - - - - - - - - - - - - - - -\n|  Retirar el día de HOY la compra  |\n- - - - - - - - - - - - - - - - - - - - - - -\n`;
+
+        datosIngresadosTextarea.textContent = datosIngresados;
+      };
+
+      button.addEventListener('click', actualizarTextarea);
+      nombreInput.addEventListener('input', actualizarTextarea);
+      numeroInput.addEventListener('input', actualizarTextarea);
+      productoSelect.addEventListener('change', actualizarTextarea);
+      cantidadInput.addEventListener('input', actualizarTextarea);
+      horaInput.addEventListener('input', actualizarTextarea);
+      formaPago.addEventListener('change', actualizarTextarea);
+    });
+  </script>
+
+  <section id="section4">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!4v1707402919413!6m8!1m7!1skfFO4oeCarw1vka1iJM4yw!2m2!1d-0.2898182276031454!2d-78.55181663420682!3f169.98170605171896!4f1.307704264729324!5f0.7820865974627469"
+      width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+    <div class="button-wrapper">
+      <a class="button" href="https://maps.app.goo.gl/5N4WtmDePASDLMMHA">
+        <span>Ubicación</span><i class="fas fa-map-marker-alt"></i>
+      </a>
     </div>
-    <script>
-      // Realiza una solicitud AJAX para obtener los productos
-      fetch('http://localhost:3000/productos')
-        .then(response => response.text()) // Cambia a response.text() en lugar de response.json()
-        .then(tableHTML => {
-          // Actualiza la interfaz de usuario con las filas de la tabla HTML
-          const cuerpoTabla = document.getElementById('productos-cuerpo');
-          cuerpoTabla.innerHTML = tableHTML; // Cambia el contenido del cuerpo de la tabla
-        })
-        .catch(error => console.error('Error al obtener productos:', error));
-    </script>
   </section>
 
-
-
-  <section id="section3" class="section">
-    <h2>Pedidos</h2>
+  <section id="section5">
+    <div class="footer">
+      <div class="contain">
+        <div class="col">
+          <h1>Compañia</h1>
+          <ul>
+            <li><a href="https://wa.me/593992762138">WhatsApp</a></li>
+            <li><a href="https://maps.app.goo.gl/5N4WtmDePASDLMMHA">Ubicacion</a></li>
+            <li><a href="#section3">Servicios</a></li>
+          </ul>
+        </div>
+        <div class="col">
+          <h1>Productos</h1>
+          <ul>
+            <li><a href="#section2">Productos</a></li>
+            <li><a href="#section3">Pedidos</a></li>
+          </ul>
+        </div>
+        <div class="col">
+          <h1>Recursos</h1>
+          <ul>
+            <li>Google Mpas</li>
+            <li>Bootstrap</li>
+            <li>WhatsApp</li>
+            <li>Flaticon</li>
+          </ul>
+        </div>
+        <div class="col">
+          <h1>Soporte</h1>
+          <ul>
+            <li><a href="">Autor</a></li>
+            <li><a href="">GitHub</a></li>
+          </ul>
+        </div>
+        <div class="col social">
+          <h1>Social</h1>
+          <ul>
+            <a href="https://www.facebook.com/profile.php?id=100069168097803&mibextid=ZbWKwL" class="social-icon"><i
+                class="fab fa-facebook-f"></i></a>
+            <a href="https://wa.me/593992762138" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.instagram.com/soy_carlitos_11?igsh=MTNzOXV1OGI5MzN1Mg==" class="social-icon"><i
+                class="fab fa-instagram"></i></a>
+          </ul>
+        </div>
+      </div>
+      <br>
+    </div>
   </section>
 
-  <section id="section4" class="section">
-    <h2>Ubicacion</h2>
-  </section>
-
+  <script src="/backend/validacion.js"></script>
 </body>
 
 </html>
